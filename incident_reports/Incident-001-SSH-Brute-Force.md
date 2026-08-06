@@ -47,7 +47,7 @@ screenshots/incident-001/01-attacking-ips.png
 
 **Analysis**
 
-This query extracts IPv4 addresses from failed SSH authentication events and counts the number of attempts originating from each address.
+The search identified **185 unique source IP addresses** responsible for failed SSH authentication attempts. The highest-volume source IP, **87.194.216.51**, generated **948 failed login attempts**, followed by **211.166.11.101** with **743 attempts**. The large number of repeated authentication failures originating from multiple external IP addresses is consistent with SSH brute-force activity.
 
 ---
 
@@ -79,11 +79,17 @@ This query extracts usernames targeted during failed SSH authentication attempts
 
 ### Source IP Addresses
 
-(To be completed)
+| Rank | Source IP | Failed Attempts |
+|------|-----------|----------------:|
+| 1 | 87.194.216.51 | 948 |
+| 2 | 211.166.11.101 | 743 |
+| 3 | 128.241.220.82 | 622 |
+| 4 | 109.169.32.135 | 515 |
+| 5 | 194.215.205.19 | 514 |
 
 ### Targeted Accounts
 
-(To be completed)
+*(To be completed after analyzing the username results.)*
 
 ---
 
@@ -97,7 +103,10 @@ This query extracts usernames targeted during failed SSH authentication attempts
 
 ## Findings
 
-(To be completed)
+- 33,253 failed SSH authentication events were identified.
+- 185 unique source IP addresses participated in the activity.
+- The highest-volume attacker generated 948 failed login attempts.
+- Multiple external IP addresses targeted the SSH service, indicating distributed brute-force behavior.
 
 ---
 
