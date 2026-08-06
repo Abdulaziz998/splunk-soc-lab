@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Multiple failed SSH authentication attempts were identified within the Splunk tutorial dataset. Analysis focused on identifying the attacking source IP addresses and the usernames targeted during the brute-force activity.
+An investigation into SSH authentication activity identified **33,253 failed login attempts** originating from **185 unique source IP addresses**. Analysis revealed multiple external IPs repeatedly targeting common administrative accounts such as **root**, **administrator**, and **admin**. The observed activity is consistent with an automated SSH brute-force attack and aligns with the MITRE ATT&CK technique **T1110 – Brute Force**.
 
 ---
 
@@ -71,7 +71,7 @@ screenshots/incident-001/02-targeted-usernames.png
 
 **Analysis**
 
-This query extracts usernames targeted during failed SSH authentication attempts and ranks them by frequency.
+The search identified the usernames most frequently targeted during failed SSH authentication attempts. The accounts **root (1,493 attempts)**, **administrator (1,020 attempts)**, **admin (938 attempts)**, and **operator (923 attempts)** were the primary targets. The results indicate attackers focused on common administrative and privileged accounts, which is characteristic of automated SSH brute-force attacks.
 
 ---
 
@@ -89,7 +89,13 @@ This query extracts usernames targeted during failed SSH authentication attempts
 
 ### Targeted Accounts
 
-*(To be completed after analyzing the username results.)*
+| Rank | Username | Failed Attempts |
+|------|----------|----------------:|
+| 1 | root | 1,493 |
+| 2 | administrator | 1,020 |
+| 3 | admin | 938 |
+| 4 | operator | 923 |
+| 5 | mail | 753 |
 
 ---
 
@@ -103,20 +109,23 @@ This query extracts usernames targeted during failed SSH authentication attempts
 
 ## Findings
 
-- 33,253 failed SSH authentication events were identified.
-- 185 unique source IP addresses participated in the activity.
-- The highest-volume attacker generated 948 failed login attempts.
-- Multiple external IP addresses targeted the SSH service, indicating distributed brute-force behavior.
-
+- Identified **33,253 failed SSH authentication events**.
+- Observed **185 unique attacking source IP addresses**.
+- The most active source IP (**87.194.216.51**) generated **948 failed login attempts**.
+- The most frequently targeted account was **root**, with **1,493 failed authentication attempts**.
+- Additional frequently targeted accounts included **administrator**, **admin**, and **operator**.
+- The attack pattern is consistent with an automated SSH brute-force campaign targeting privileged accounts.
+  
 ---
 
 ## Recommendations
 
-- Investigate repeated failed authentication attempts.
-- Monitor for successful logins following repeated failures.
-- Enforce strong password policies.
-- Enable Multi-Factor Authentication where applicable.
-- Configure alerts for excessive authentication failures.
+- Monitor SSH authentication logs for repeated failed login attempts.
+- Configure Splunk alerts to detect excessive authentication failures from a single source IP.
+- Enforce strong password policies for privileged accounts.
+- Enable Multi-Factor Authentication (MFA) wherever possible.
+- Restrict SSH access using firewall rules or IP allowlists.
+- Regularly review authentication logs for indicators of brute-force activity.
 
 ---
 
